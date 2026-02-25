@@ -9,7 +9,7 @@ class SaleOrderLine(models.Model):
         compute="_compute_sid_qty_stock_mad",
         store=False,
         readonly=True,
-        help="Cantidad pronosticada (virtual_available) en la ubicaciÃ³n de stock del almacÃ©n localizado por state_es_m.",
+        help="Cantidad pronosticada (virtual_available) en la ubicaciÃ³n de stock del almacén localizado por state_es_m.",
     )
 
     sid_qty_stock_ptllno = fields.Float(
@@ -17,7 +17,7 @@ class SaleOrderLine(models.Model):
         compute="_compute_sid_qty_stock_ptllno",
         store=False,
         readonly=True,
-        help="Cantidad pronosticada (virtual_available) en la ubicaciÃ³n de stock del almacÃ©n localizado por state_es_cr.",
+        help="Cantidad pronosticada (virtual_available) en la ubicaciÃ³n de stock del almacén localizado por state_es_cr.",
     )
 
     def _get_wh_stock_location_by_state_xmlid(self, state_xmlid):
