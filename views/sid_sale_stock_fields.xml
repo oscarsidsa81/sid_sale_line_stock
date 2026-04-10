@@ -63,9 +63,40 @@
             <field name="model">sale.order.line</field>
             <field name="inherit_id" ref="sale.view_order_line_tree"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='salesman_id']" position="after">
+                    <xpath expr="//field[@name='route_id']" position="move"/>
+                </xpath>
                 <xpath expr="//field[@name='route_id']" position="attributes">
                     <attribute name="attrs">{"readonly": ["&amp;",["state","=","sale"],["id","&gt;",0]]}</attribute>
                     <attribute name="options">{"no_open":true}</attribute>
+                </xpath>
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-info">(qty_delivered &lt; product_uom_qty and state == 'sale')
+                    </attribute>
+                    <attribute name="decoration-success">(qty_delivered &gt;= product_uom_qty and state == 'sale' and
+                        qty_to_invoice &gt; 0)
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='forecasted_qty']" position="attributes">
+                    <attribute name="decoration-bf">
+                        (state != 'sale' and route_first_rule_valued_src and product_uom_qty &gt; forecasted_qty)
+                    </attribute>
+                    <attribute name="decoration-danger">
+                        (state != 'sale' and route_first_rule_valued_src and product_uom_qty &gt; forecasted_qty)
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                    <field name="virtual_available_at_date" string="Disponible a Fecha" optional="show" readonly="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='virtual_available_at_date']" position="attributes">
+                    <attribute name="decoration-bf">(state != 'sale' and route_first_rule_valued_src and product_uom_qty &gt;
+                        virtual_available_at_date)
+                    </attribute>
+                    <attribute name="decoration-danger">(state != 'sale' and route_first_rule_valued_src and product_uom_qty &gt;
+                        virtual_available_at_date)
+                    </attribute>
                 </xpath>
             </field>
         </record>

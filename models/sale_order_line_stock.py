@@ -20,6 +20,28 @@ class SaleOrderLine(models.Model):
         help="Cantidad pronosticada (virtual_available) en la ubicaciÃ³n de stock del almacén localizado por state_es_cr.",
     )
 
+    route_first_rule_valued_src = fields.Boolean (
+        string="Ruta con primera regla valorada",
+        compute="_compute_route_first_rule_valued_src",
+        store=True,
+    )
+
+    @api.depends (
+        'route_id',
+        'route_id.rule_ids.sequence',
+        'route_id.rule_ids.location_src_id',
+        'route_id.rule_ids.location_src_id.is_valued_in_stock',
+    )
+    def _compute_route_first_rule_valued_src(self) :
+        for rec in self :
+            value = False
+            if rec.route_id and rec.route_id.rule_ids :
+                first_rule = rec.route_id.rule_ids.sorted (
+                    key=lambda r : r.sequence )[:1]
+                value = bool (
+                    first_rule and first_rule.location_src_id.is_valued_in_stock )
+            rec.route_first_rule_valued_src = value
+
     def _get_wh_stock_location_by_state_xmlid(self, state_xmlid):
         """Devuelve la lot_stock_id del primer warehouse cuya partner_id.state_id coincida con el state."""
         Warehouse = self.env["stock.warehouse"]
