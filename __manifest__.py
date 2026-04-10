@@ -7,7 +7,9 @@
     "author": "oscarsidsa81",
     "license": "LGPL-3",
     "depends": ["sale", "sale_stock", "stock"],
-    "data": [],
+    "data": [
+        "views/sid_sale_stock_fields.xml",
+    ],
     "installable": True,
     "application": False,
 }
