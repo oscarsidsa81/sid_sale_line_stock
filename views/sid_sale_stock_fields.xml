@@ -65,10 +65,7 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='product_uom_qty']" position="after">
-                    <xpath expr="//field[@name='forecasted_qty']" position="move"/>
-                </xpath>
-                <xpath expr="//field[@name='forecasted_qty']" position="attributes">
-                    <attribute name="string">Pronosticada</attribute>
+                    <field name="forecasted_qty" string="Pronosticada" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='salesman_id']" position="after">
                     <xpath expr="//field[@name='route_id']" position="move"/>
