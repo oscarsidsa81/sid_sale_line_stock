@@ -63,6 +63,13 @@
             <field name="model">sale.order.line</field>
             <field name="inherit_id" ref="sale.view_order_line_tree"/>
             <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                    <xpath expr="//field[@name='forecasted_qty']" position="move"/>
+                </xpath>
+                <xpath expr="//field[@name='forecasted_qty']" position="attributes">
+                    <attribute name="string">Pronosticada</attribute>
+                </xpath>
                 <xpath expr="//field[@name='salesman_id']" position="after">
                     <xpath expr="//field[@name='route_id']" position="move"/>
                 </xpath>
@@ -91,10 +98,12 @@
                 </xpath>
 
                 <xpath expr="//field[@name='virtual_available_at_date']" position="attributes">
-                    <attribute name="decoration-bf">(state != 'sale' and route_first_rule_valued_src and product_uom_qty &gt;
+                    <attribute name="decoration-bf">(state != 'sale' and route_first_rule_valued_src and product_uom_qty
+                        &gt;
                         virtual_available_at_date)
                     </attribute>
-                    <attribute name="decoration-danger">(state != 'sale' and route_first_rule_valued_src and product_uom_qty &gt;
+                    <attribute name="decoration-danger">(state != 'sale' and route_first_rule_valued_src and
+                        product_uom_qty &gt;
                         virtual_available_at_date)
                     </attribute>
                 </xpath>
