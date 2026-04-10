@@ -1,77 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data>
+    <data>
 
-    <!-- OV - Añade movimientos de stock (sobre sale.sale_order_line_view_form_readonly) -->
-    <record id="view_sale_order_line_form_readonly_ov_moves" model="ir.ui.view">
-      <field name="name">sid.sale.order.line.form.readonly.ov.moves</field>
-      <field name="model">sale.order.line</field>
-      <field name="inherit_id" ref="sale.sale_order_line_view_form_readonly"/>
-      <field name="arch" type="xml">
-        <xpath expr="//field[@name='activity_ids']" position="after">
-          <field name="move_ids" style="width: 90%" colspan="2" force_save="True" attrs="{}" readonly="1">
-            <tree string="Moves" create="0">
-              <field name="date" decoration-danger="(state not in ('cancel','done')) and date &gt; current_date"/>
-              <field name="reference"/>
-              <field name="item" optional="show"/>
-              <field name="picking_type_id" invisible="1"/>
-              <field name="location_id" options="{'no_create': True}" string="From"/>
-              <field name="location_dest_id" options="{'no_create': True}" string="To"/>
-              <field name="product_packaging_id" optional="hide" groups="product.group_stock_packaging"/>
-              <field name="product_uom_qty"/>
-              <field name="quantity_done" optional="show"/>
-              <field name="company_id" groups="base.group_multi_company"/>
-              <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state not in ('done', 'cancel')"/>
-            </tree>
-          </field>
+        <!-- OV - Añade movimientos de stock (sobre sale.sale_order_line_view_form_readonly) -->
+        <record id="view_sale_order_line_form_readonly_ov_moves" model="ir.ui.view">
+            <field name="name">sid.sale.order.line.form.readonly.ov.moves</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.sale_order_line_view_form_readonly"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[1]/sheet[1]/group[1]" position="after">
+                    <group name="Actividades">
+                        <field name="activity_ids" style="width: 90%" colspan="2" force_save="True" attrs="{}"
+                               readonly="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='activity_ids']" position="after">
+                    <field name="move_ids" style="width: 90%" colspan="2" force_save="True" attrs="{}" readonly="1">
+                        <tree string="Moves" create="0">
+                            <field name="date"
+                                   decoration-danger="(state not in ('cancel','done')) and date &gt; current_date"/>
+                            <field name="reference"/>
+                            <field name="item" optional="show"/>
+                            <field name="picking_type_id" invisible="1"/>
+                            <field name="location_id" options="{'no_create': True}" string="From"/>
+                            <field name="location_dest_id" options="{'no_create': True}" string="To"/>
+                            <field name="product_packaging_id" optional="hide" groups="product.group_stock_packaging"/>
+                            <field name="product_uom_qty"/>
+                            <field name="quantity_done" optional="show"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="state" widget="badge" decoration-success="state == 'done'"
+                                   decoration-info="state not in ('done', 'cancel')"/>
+                        </tree>
+                    </field>
 
-          <field name="purchase_line_ids" style="width: 90%" colspan="2" force_save="True" attrs="{}" readonly="1">
-            <tree string="Líneas de compra" create="0">
-              <field name="sid_po_line_delay" optional="show"/>
-              <field name="item" optional="show"/>
-              <field name="name" widget="text" optional="show"/>
-              <field name="partner_id" optional="show"/>
-              <field name="order_id" optional="show"/>
-              <field name="product_qty" optional="show"/>
-              <field name="qty_received" optional="show"/>
-              <field name="estimated_date" optional="show"/>
-            </tree>
-          </field>
-        </xpath>
+                    <field name="purchase_line_ids" style="width: 90%" colspan="2" force_save="True" attrs="{}"
+                           readonly="1">
+                        <tree string="Líneas de compra" create="0">
+                            <field name="sid_po_line_delay" optional="show"/>
+                            <field name="item" optional="show"/>
+                            <field name="name" widget="text" optional="show"/>
+                            <field name="partner_id" optional="show"/>
+                            <field name="order_id" optional="show"/>
+                            <field name="product_qty" optional="show"/>
+                            <field name="qty_received" optional="show"/>
+                            <field name="estimated_date" optional="show"/>
+                        </tree>
+                    </field>
+                </xpath>
 
-        <xpath expr="//sheet" position="inside">
-          <div name="invoice_lines" groups="base.group_user,account.group_account_manager" attrs="{'invisible': [('display_type', '!=', False)]}">
-            <label for="invoice_lines"/>
-            <field name="invoice_lines"/>
-          </div>
-        </xpath>
-      </field>
-    </record>
-    <!-- OV - Rutas -->
-    <record id="view_sale_order_line_tree_ov_rutas" model="ir.ui.view">
-      <field name="name">sid.sale.order.line.tree.ov.rutas</field>
-      <field name="model">sale.order.line</field>
-      <field name="inherit_id" ref="sale.view_order_line_tree"/>
-      <field name="arch" type="xml">
-        <xpath expr="//field[@name='route_id']" position="attributes">
-          <attribute name="attrs">{"readonly": ["&amp;",["state","=","sale"],["id","&gt;",0]]}</attribute>
-          <attribute name="options">{"no_open":true}</attribute>
-        </xpath>
-      </field>
-    </record>
+                <xpath expr="//sheet" position="inside">
+                    <div name="invoice_lines" groups="base.group_user,account.group_account_manager"
+                         attrs="{'invisible': [('display_type', '!=', False)]}">
+                        <label for="invoice_lines"/>
+                        <field name="invoice_lines"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <!-- OV - Rutas -->
+        <record id="view_sale_order_line_tree_ov_rutas" model="ir.ui.view">
+            <field name="name">sid.sale.order.line.tree.ov.rutas</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='route_id']" position="attributes">
+                    <attribute name="attrs">{"readonly": ["&amp;",["state","=","sale"],["id","&gt;",0]]}</attribute>
+                    <attribute name="options">{"no_open":true}</attribute>
+                </xpath>
+            </field>
+        </record>
 
-    <!-- Studio: Qty stock Ptllno -->
-    <record id="view_sale_order_line_tree_studio_qty_stock_ptllno" model="ir.ui.view">
-      <field name="name">sid.sale.order.line.tree.studio.qty_stock_ptllno</field>
-      <field name="model">sale.order.line</field>
-      <field name="inherit_id" ref="sale.view_order_line_tree"/>
-      <field name="arch" type="xml">
-        <xpath expr="//field[@name='qty_delivered']" position="after">
-          <field optional="show" name="sid_qty_stock_mad" string="Qty stock Mad"/>
-          <field optional="show" name="sid_qty_stock_ptllno" string="Qty stock Ptllno"/>
-        </xpath>
-      </field>
-    </record>
+        <!-- Studio: Qty stock Ptllno -->
+        <record id="view_sale_order_line_tree_studio_qty_stock_ptllno" model="ir.ui.view">
+            <field name="name">sid.sale.order.line.tree.studio.qty_stock_ptllno</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='qty_delivered']" position="after">
+                    <field optional="show" name="sid_qty_stock_mad" string="Qty stock Mad"/>
+                    <field optional="show" name="sid_qty_stock_ptllno" string="Qty stock Ptllno"/>
+                </xpath>
+            </field>
+        </record>
 
-  </data>
+    </data>
 </odoo>
