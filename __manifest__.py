@@ -6,7 +6,7 @@
     "summary": "Campos de stock pronosticado por almacén (Madrid/Puertollano) en sale.order.line.",
     "author": "oscarsidsa81",
     "license": "LGPL-3",
-    "depends": ["sale", "sale_stock", "stock","oct_sale_order_by_line"],
+    "depends": ["sale", "sale_stock", "stock", "sale_purchase", "sid_purchase_delay_sync", "oct_sale_order_by_line"],
     "data": [
         "views/sid_sale_stock_fields.xml",
     ],
